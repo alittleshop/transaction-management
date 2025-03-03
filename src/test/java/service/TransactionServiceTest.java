@@ -31,15 +31,6 @@ public class TransactionServiceTest {
         assertNotNull(createdTransaction.getTimestamp());
     }
 
-    // 测试通过ID获取交易记录
-    @Test
-    public void testGetTransaction() {
-        Transaction transaction = new Transaction(null, "Test Description", new BigDecimal("100"), "12345", "67890", "Cash");
-        Transaction createdTransaction = transactionService.createTransaction(transaction);
-        Transaction retrievedTransaction = transactionService.getTransaction(createdTransaction.getId());
-        assertEquals(createdTransaction.getId(), retrievedTransaction.getId());
-    }
-
     // 测试获取所有交易记录
     @Test
     public void testGetAllTransactions() {

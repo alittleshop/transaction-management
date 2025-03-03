@@ -36,15 +36,6 @@ public class TransactionService {
     }
 
     /**
-     * 通过id获取交易记录
-     * @param id
-     * @return
-     */
-    public Transaction getTransaction(Long id) {
-        return transactions.get(id);
-    }
-
-    /**
      * 获取交易记录列表
      * @return
      */
