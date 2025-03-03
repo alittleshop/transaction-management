@@ -84,10 +84,10 @@ const App = () => {
         });
       }
     } catch (error) {
-        if(error.status==400){
+        if(error.status===400){
           alert('更新交易记录失败，请检查金额/账号是否已经输入，稍后重新重试！');
         }
-        if(error.status==404){
+        if(error.status===404){
           alert('更新交易记录失败，交易记录不存在，请稍后重试！');
         }
       console.error('Error updating transaction:', error);
@@ -103,7 +103,7 @@ const App = () => {
         setTransactions(filteredTransactions);
       }
     } catch (error) {
-       if(error.status==404){
+       if(error.status===404){
          alert('删除交易记录失败，交易记录不存在！');
        }
       console.error('Error deleting transaction:', error);
