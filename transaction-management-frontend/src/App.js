@@ -60,7 +60,12 @@ const App = () => {
         });
       }
     } catch (error) {
-      alert('创建交易记录失败，请检查金额/账号是否已经输入，稍后重新重试！');
+       if(error.status===405){
+         alert('创建失败，请稍后重试！');
+       }
+       if(error.status===400){
+         alert('创建交易记录失败，请检查金额/账号是否已经输入，稍后重新重试！');
+       }
       console.error('Error creating transaction:', error);
     }
   };
@@ -90,6 +95,9 @@ const App = () => {
         if(error.status===404){
           alert('更新交易记录失败，交易记录不存在，请稍后重试！');
         }
+        if(error.status===405){
+           alert('更新失败，请稍后重试！');
+        }
       console.error('Error updating transaction:', error);
     }
   };
@@ -105,6 +113,9 @@ const App = () => {
     } catch (error) {
        if(error.status===404){
          alert('删除交易记录失败，交易记录不存在！');
+       }
+       if(error.status===405){
+         alert('删除失败，请稍后重试！');
        }
       console.error('Error deleting transaction:', error);
     }

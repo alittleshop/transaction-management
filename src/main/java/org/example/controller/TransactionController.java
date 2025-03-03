@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.example.service.TransactionService;
@@ -42,8 +43,14 @@ public class TransactionController {
                 || !StringUtils.hasText(transaction.getPayeeAccount())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Transaction createdTransaction = transactionService.createTransaction(transaction);
-        return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
+        try {
+            Transaction createdTransaction = transactionService.createTransaction(transaction);
+            return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
+        }catch (Exception e){
+            // 异常捕获
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
     }
 
     /**
@@ -52,7 +59,13 @@ public class TransactionController {
      */
     @GetMapping
     public List<Transaction> getAllTransactions() {
-        return transactionService.getAllTransactions();
+        try{
+            return transactionService.getAllTransactions();
+        }catch (Exception e){
+            // 异常捕获
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
 
@@ -68,11 +81,17 @@ public class TransactionController {
                 || !StringUtils.hasText(updatedTransaction.getPayeeAccount())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Transaction transaction = transactionService.updateTransaction(id, updatedTransaction);
-        if (transaction == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            Transaction transaction = transactionService.updateTransaction(id, updatedTransaction);
+            if (transaction == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok(transaction);
+        }catch (Exception e){
+            // 异常捕获
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
-        return ResponseEntity.ok(transaction);
     }
 
     /**
@@ -82,10 +101,16 @@ public class TransactionController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        boolean deleted = transactionService.deleteTransaction(id);
-        if (!deleted) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try{
+            boolean deleted = transactionService.deleteTransaction(id);
+            if (!deleted) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.noContent().build();
+        }catch (Exception e){
+            // 异常捕获
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
-        return ResponseEntity.noContent().build();
     }
 }
