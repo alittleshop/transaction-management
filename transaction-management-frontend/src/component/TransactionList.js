@@ -35,7 +35,7 @@ const TransactionList = () => {
   }, [currentPage, pageSize]);
 
   const handleCreateTransaction = () => {
-      // 跳转到创建交易记录的页面，假设路径为 '/create-transaction'
+      // 跳转到创建交易记录的页面
       navigate('/create');
   };
 
@@ -88,7 +88,7 @@ const TransactionList = () => {
       <table border="1px" style={{width:'1000px'}}>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>银行流水号</th>
             <th>描述</th>
             <th>金额</th>
             <th>付款账号</th>
@@ -100,7 +100,7 @@ const TransactionList = () => {
         <tbody>
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
-              <td>{transaction.id}</td>
+              <td>{transaction.transactionSerialNo}</td>
               <td>
                 {updateTransaction.id === transaction.id ? (
                                   <input

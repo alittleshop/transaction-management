@@ -34,12 +34,16 @@ public class TransactionController {
     public BaseResponse<Transaction> createTransaction(@RequestBody Transaction transaction) {
         // 检查必填要素
         if (transaction.getAmount() == null || StringUtils.isBlank(transaction.getPayerAccount())
-                || StringUtils.isBlank(transaction.getPayeeAccount())) {
+                || StringUtils.isBlank(transaction.getPayeeAccount())
+                || StringUtils.isBlank(transaction.getTransactionSerialNo())) {
             return BaseResponse.validError("金额，付款账号，收款账号三者不能存在空值");
         }
         try {
             Transaction createdTransaction = transactionService.createTransaction(transaction);
             return BaseResponse.successData(createdTransaction);
+        }catch (RuntimeException e){
+            // 异常捕获
+            return BaseResponse.systemError(e.getMessage());
         }catch (Exception e){
             // 异常捕获
             return BaseResponse.systemError("系统繁忙，请稍后再试");

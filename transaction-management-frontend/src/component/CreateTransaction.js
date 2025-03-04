@@ -10,30 +10,48 @@ const CreateTransaction = () => {
   const [payerAccount, setPayerAccount] = useState('');
   const [payeeAccount, setPayeeAccount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
-
+  const [transactionSerialNo, setTransactionSerialNo] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const transaction = {
+        transactionSerialNo,
         description,
         amount,
         payerAccount,
         payeeAccount,
         paymentMethod
       };
-      await axios.post('/transactions', transaction);
+      const response = await axios.post('/transactions', transaction);
+      if(response.data.code!==200){
+        alert('创建交易记录失败，原因：'+response.data.message);
+      }else{
+        navigate('/');
+      }
       console.log('创建交易记录成功');
-      navigate('/');
     } catch (error) {
       console.error('创建交易记录失败:', error);
     }
   };
 
+  const handleReturnHome = () => {
+        // 回到首页
+        navigate('/');
+    };
+
   return (
     <div>
       <h1>创建交易记录</h1>
       <form onSubmit={handleSubmit}>
+        <label>银行交易流水号（唯一）:</label>
+        <input
+          type="text"
+          value={transactionSerialNo}
+          onChange={(e) => setTransactionSerialNo(e.target.value)}
+          required
+        />
+        <br />
         <label>描述:</label>
         <input
           type="text"
@@ -73,6 +91,7 @@ const CreateTransaction = () => {
         />
         <br />
         <button type="submit">提交</button>
+        <button onClick={handleReturnHome}>返回</button>
       </form>
     </div>
   );

@@ -10,9 +10,11 @@ import com.data.vo.Transaction;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 交易记录服务类
@@ -34,6 +36,12 @@ public class TransactionServiceImpl implements ITransactionService {
      */
     @Transactional
     public Transaction createTransaction(Transaction transaction) {
+        Pageable pageable = PageRequest.of(0, 1);
+        // 判断交易流水号是否存在，用于判断是否交易重复
+        Page<Transaction> page =  transactionRepository.findListByTransactionSerialNo(transaction.getTransactionSerialNo(), pageable);
+        if(!CollectionUtils.isEmpty(page.getContent())){
+            throw new RuntimeException("银行交易流水号已经存在 : " + transaction.getTransactionSerialNo());
+        }
         transaction.setTimestamp(LocalDateTime.now());
         transaction.setUpdateTime(LocalDateTime.now());
         return transactionRepository.save(transaction);

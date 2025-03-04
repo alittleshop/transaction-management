@@ -16,10 +16,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     /**
      * 根据交易流水号搜索记录
+     * @param transactionSerialNo 交易流水号
      * @param pageable 分页参数
      * @return
      */
     Page<Transaction> findListByTransactionSerialNo(String transactionSerialNo, Pageable pageable);
-
 
 }
