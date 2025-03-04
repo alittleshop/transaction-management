@@ -90,6 +90,7 @@ const CreateTransaction = () => {
           onChange={(e) => setPaymentMethod(e.target.value)}
         />
         <br />
+        <br />
         <button type="submit">提交</button>
         <button onClick={handleReturnHome}>返回</button>
       </form>
