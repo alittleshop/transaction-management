@@ -35,6 +35,7 @@ public class TransactionServiceImpl implements ITransactionService {
     @Transactional
     public Transaction createTransaction(Transaction transaction) {
         transaction.setTimestamp(LocalDateTime.now());
+        transaction.setUpdateTime(LocalDateTime.now());
         return transactionRepository.save(transaction);
     }
 

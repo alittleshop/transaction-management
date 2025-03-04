@@ -7,7 +7,9 @@ import com.data.vo.Transaction;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,9 +53,11 @@ public class TransactionController {
     @GetMapping
     public BaseResponse<Page<Transaction>> getTransactionsPage(
             @RequestParam(required = false) String transactionSerialNo,
-            @PageableDefault(page = 1, size = 10)Pageable pageable
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size
             ) {
         try{
+            Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
             Page<Transaction> result =  transactionService.getTransactionsPage(transactionSerialNo, pageable);
             return BaseResponse.successData(result);
         }catch (Exception e){

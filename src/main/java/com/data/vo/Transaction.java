@@ -3,11 +3,14 @@ package com.data.vo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(indexes = {@Index(name = "idx_transaction_serial_no", columnList = "transaction_serial_no", unique = true)})
