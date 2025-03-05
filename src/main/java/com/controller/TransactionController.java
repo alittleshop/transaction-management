@@ -38,6 +38,7 @@ public class TransactionController {
             return BaseResponse.systemError(e.getMessage());
         }catch (Exception e){
             // 异常捕获
+            e.printStackTrace();
             return BaseResponse.systemError("系统繁忙，请稍后再试");
         }
     }
@@ -58,6 +59,7 @@ public class TransactionController {
             return BaseResponse.successData(result);
         }catch (Exception e){
             // 异常捕获
+            e.printStackTrace();
             return BaseResponse.systemError("系统繁忙，请稍后再试");
         }
     }
@@ -79,6 +81,7 @@ public class TransactionController {
             return BaseResponse.successData(transaction);
         }catch (Exception e){
             // 异常捕获
+            e.printStackTrace();
             return BaseResponse.systemError("系统繁忙，请稍后再试");
         }
     }
@@ -98,6 +101,7 @@ public class TransactionController {
             return BaseResponse.success();
         }catch (Exception e){
             // 异常捕获
+            e.printStackTrace();
             return BaseResponse.systemError("系统繁忙，请稍后再试");
         }
     }

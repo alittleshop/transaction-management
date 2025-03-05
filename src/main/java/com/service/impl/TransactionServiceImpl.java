@@ -52,7 +52,8 @@ public class TransactionServiceImpl implements ITransactionService {
      * @return
      */
     @Cacheable(value="transactions",
-            key="#transactionSerialNo !=null ? #transactionSerialNo + '&' + #pageable.pageNumber + '&' + #pageable.pageSize",
+            key="#transactionSerialNo !=null ? #transactionSerialNo + '&' + #pageable.pageNumber + '&' + #pageable.pageSize" +
+                    ": #pageable.pageNumber + '&' + #pageable.pageSize",
             unless= "#result == null"
     )
     public Page<Transaction> getTransactionsPage(String transactionSerialNo, Pageable pageable) {
