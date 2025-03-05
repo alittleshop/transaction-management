@@ -5,6 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * h2数据库方法类
+ */
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     /**

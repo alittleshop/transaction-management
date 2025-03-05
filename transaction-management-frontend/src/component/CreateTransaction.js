@@ -8,7 +8,9 @@ const CreateTransaction = () => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(null);
   const [payerAccount, setPayerAccount] = useState('');
+  const [payerName, setPayerName] = useState('');
   const [payeeAccount, setPayeeAccount] = useState('');
+  const [payeeName, setPayeeName] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [transactionSerialNo, setTransactionSerialNo] = useState('');
 
@@ -20,7 +22,9 @@ const CreateTransaction = () => {
         description,
         amount,
         payerAccount,
+        payerName,
         payeeAccount,
+        payeeName,
         paymentMethod
       };
       const response = await axios.post('/transactions', transaction);
@@ -75,12 +79,27 @@ const CreateTransaction = () => {
           required
         />
         <br />
+        <label>付款人姓名:</label>
+        <input
+          type="text"
+          value={payerName}
+          onChange={(e) => setPayerName(e.target.value)}
+          required
+        />
+        <br />
         <label>收款账号:</label>
         <input
           type="text"
           value={payeeAccount}
           onChange={(e) => setPayeeAccount(e.target.value)}
           required
+        />
+        <br />
+        <label>收款人姓名:</label>
+        <input
+          type="text"
+          value={payeeName}
+          onChange={(e) => setPayeeName(e.target.value)}
         />
         <br />
         <label>支付方式:</label>

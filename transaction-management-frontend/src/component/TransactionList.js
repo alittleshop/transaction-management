@@ -14,7 +14,9 @@ const TransactionList = () => {
       description: '',
       amount: 0,
       payerAccount: '',
+      payerName: '',
       payeeAccount: '',
+      payeeName: '',
       paymentMethod: ''
   });
   const [transactionSerialNo, setTransactionSerialNo] = useState(''); // 新增查询条件
@@ -70,7 +72,9 @@ const TransactionList = () => {
             description: '',
             amount: 0,
             payerAccount: '',
+            payerName: '',
             payeeAccount: '',
+            payeeName: '',
             paymentMethod: ''
           });
         }
@@ -135,7 +139,9 @@ const TransactionList = () => {
             <th>描述</th>
             <th>金额</th>
             <th>付款账号</th>
+            <th>付款人姓名</th>
             <th>收款账号</th>
+            <th>收款人姓名</th>
             <th>支付方式</th>
             <th>操作</th>
           </tr>
@@ -146,58 +152,80 @@ const TransactionList = () => {
               <td>{transaction.transactionSerialNo}</td>
               <td>
                 {updateTransaction.id === transaction.id ? (
-                                  <input
-                                    type="text"
-                                    value={updateTransaction.description}
-                                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, description: e.target.value })}
-                                  />
-                                ) : (
-                                  transaction.description
-                                )}
+                  <input
+                    type="text"
+                    value={updateTransaction.description}
+                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, description: e.target.value })}
+                  />
+                  ) : (
+                    transaction.description
+                  )}
               </td>
               <td>
                 {updateTransaction.id === transaction.id ? (
-                                  <input
-                                    type="number"
-                                    value={updateTransaction.amount}
-                                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, amount: parseFloat(e.target.value) })}
-                                  />
-                                ) : (
-                                  transaction.amount
-                                )}
+                  <input
+                    type="number"
+                    value={updateTransaction.amount}
+                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, amount: parseFloat(e.target.value) })}
+                  />
+                ) : (
+                   transaction.amount
+                )}
               </td>
               <td>
                 {updateTransaction.id === transaction.id ? (
-                                <input
-                                  type="text"
-                                  value={updateTransaction.payerAccount}
-                                  onChange={(e) => setUpdateTransaction({ ...updateTransaction, payerAccount: e.target.value })}
-                                />
-                              ) : (
-                                transaction.payerAccount
-                              )}
+                  <input
+                    type="text"
+                    value={updateTransaction.payerAccount}
+                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, payerAccount: e.target.value })}
+                  />
+                ) : (
+                  transaction.payerAccount
+                )}
               </td>
               <td>
                 {updateTransaction.id === transaction.id ? (
-                                <input
-                                  type="text"
-                                  value={updateTransaction.payeeAccount}
-                                  onChange={(e) => setUpdateTransaction({ ...updateTransaction, payeeAccount: e.target.value })}
-                                />
-                              ) : (
-                                transaction.payeeAccount
-                              )}
+                  <input
+                    type="text"
+                    value={updateTransaction.payerName}
+                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, payerName: e.target.value })}
+                    />
+                  ) : (
+                    transaction.payerName
+                  )}
               </td>
               <td>
                 {updateTransaction.id === transaction.id ? (
-                                  <input
-                                    type="text"
-                                    value={updateTransaction.paymentMethod}
-                                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, paymentMethod: e.target.value })}
-                                  />
-                                ) : (
-                                  transaction.paymentMethod
-                                )}
+                  <input
+                    type="text"
+                    value={updateTransaction.payeeAccount}
+                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, payeeAccount: e.target.value })}
+                  />
+                ) : (
+                  transaction.payeeAccount
+                )}
+              </td>
+              <td>
+              {updateTransaction.id === transaction.id ? (
+                <input
+                  type="text"
+                  value={updateTransaction.payeeName}
+                  onChange={(e) => setUpdateTransaction({ ...updateTransaction, payeeName: e.target.value })}
+                />
+              ) : (
+                transaction.payeeName
+              )}
+              </td>
+              <td>
+                {updateTransaction.id === transaction.id ? (
+                  <input
+                    type="text"
+                    value={updateTransaction.paymentMethod}
+                    onChange={(e) => setUpdateTransaction({ ...updateTransaction, paymentMethod: e.target.value })}
+                  />
+                ) : (
+                  transaction.paymentMethod
+                )}
               </td>
               <td>
                 {updateTransaction.id === transaction.id ? (
@@ -209,7 +237,9 @@ const TransactionList = () => {
                                       description: transaction.description,
                                       amount: transaction.amount,
                                       payerAccount: transaction.payerAccount,
+                                      payerName: transaction.payerName,
                                       payeeAccount: transaction.payeeAccount,
+                                      payeeName: transaction.payeeName,
                                       paymentMethod: transaction.paymentMethod
                                     })}>更新</button>
                                     <button onClick={() => handleDelete(transaction.id)}>删除</button>

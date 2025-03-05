@@ -4,6 +4,11 @@ package com.data;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+/**
+ * 自定义响应对象
+ * author:kdl
+ * @param <T>
+ */
 @Data
 public class BaseResponse<T> {
     private int code;

@@ -4,19 +4,17 @@ package com.controller;
 import com.data.BaseResponse;
 import com.service.ITransactionService;
 import com.data.vo.Transaction;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 交易记录控制器类
+ * 交易记录api类
+ * author:kdl
  */
 @RestController
 @RequestMapping("/transactions")
@@ -31,13 +29,7 @@ public class TransactionController {
      * @return
      */
     @PostMapping
-    public BaseResponse<Transaction> createTransaction(@RequestBody Transaction transaction) {
-        // 检查必填要素
-        if (transaction.getAmount() == null || StringUtils.isBlank(transaction.getPayerAccount())
-                || StringUtils.isBlank(transaction.getPayeeAccount())
-                || StringUtils.isBlank(transaction.getTransactionSerialNo())) {
-            return BaseResponse.validError("金额，付款账号，收款账号三者不能存在空值");
-        }
+    public BaseResponse<Transaction> createTransaction(@RequestBody @Validated Transaction transaction) {
         try {
             Transaction createdTransaction = transactionService.createTransaction(transaction);
             return BaseResponse.successData(createdTransaction);
@@ -78,11 +70,7 @@ public class TransactionController {
      * @return
      */
     @PutMapping("/{id}")
-    public BaseResponse<Transaction> updateTransaction(@PathVariable Long id, @RequestBody Transaction updatedTransaction) {
-        if (updatedTransaction.getAmount() == null || StringUtils.isBlank(updatedTransaction.getPayerAccount())
-                || StringUtils.isBlank(updatedTransaction.getPayeeAccount())) {
-            return BaseResponse.validError("金额，付款账号，收款账号三者不能存在空值");
-        }
+    public BaseResponse<Transaction> updateTransaction(@PathVariable Long id, @RequestBody @Validated Transaction updatedTransaction) {
         try {
             Transaction transaction = transactionService.updateTransaction(id, updatedTransaction);
             if (transaction == null) {

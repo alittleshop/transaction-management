@@ -1,14 +1,14 @@
 package com.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.dao.TransactionRepository;
 import com.service.ITransactionService;
 import com.data.vo.Transaction;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,15 +25,12 @@ public class TransactionServiceImpl implements ITransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-
-    // 交易记录内存map
-    private final Map<Long, Transaction> transactions = new ConcurrentHashMap<>();
-
     /**
      * 创建交易记录
      * @param transaction
      * @return
      */
+    @CacheEvict(value="transactions", allEntries = true)
     @Transactional
     public Transaction createTransaction(Transaction transaction) {
         Pageable pageable = PageRequest.of(0, 1);
@@ -54,6 +51,10 @@ public class TransactionServiceImpl implements ITransactionService {
      * @param pageable 分页参数
      * @return
      */
+    @Cacheable(value="transactions",
+            key="#transactionSerialNo !=null ? #transactionSerialNo + '&' + #pageable.pageNumber + '&' + #pageable.pageSize",
+            unless= "#result == null"
+    )
     public Page<Transaction> getTransactionsPage(String transactionSerialNo, Pageable pageable) {
         if(StringUtils.isBlank(transactionSerialNo)){
             return transactionRepository.findAll(pageable);
@@ -68,13 +69,16 @@ public class TransactionServiceImpl implements ITransactionService {
      * @param updatedTransaction
      * @return
      */
+    @CacheEvict(value="transactions", allEntries = true)
     @Transactional
     public Transaction updateTransaction(Long id, Transaction updatedTransaction) {
         return transactionRepository.findById(id).map(transaction -> {
             transaction.setDescription(updatedTransaction.getDescription());
             transaction.setAmount(updatedTransaction.getAmount());
             transaction.setPayerAccount(updatedTransaction.getPayerAccount());
+            transaction.setPayerName(updatedTransaction.getPayerName());
             transaction.setPayeeAccount(updatedTransaction.getPayeeAccount());
+            transaction.setPayeeName(updatedTransaction.getPayeeName());
             transaction.setPaymentMethod(updatedTransaction.getPaymentMethod());
             transaction.setUpdateTime(LocalDateTime.now());
             return transactionRepository.save(transaction);
@@ -86,6 +90,7 @@ public class TransactionServiceImpl implements ITransactionService {
      * @param id
      * @return
      */
+    @CacheEvict(value="transactions", allEntries = true)
     @Transactional
     public boolean deleteTransaction(Long id) {
         if (transactionRepository.existsById(id)) {
