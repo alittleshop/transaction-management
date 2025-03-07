@@ -63,7 +63,7 @@ docker容器部署
 * 编程语言：java(jdk21)
 * 框架：SpringBoot
 * 数据库：H2
-* 换成：spring-cache
+* 缓存：spring-cache
 * 项目管理：maven
 * 容器：Docker
 * 前端：react
@@ -141,7 +141,7 @@ docker容器部署
 
 **2. 分页查询交易记录**
 
-- **请求方式**：get
+- **请求方式**：GET
 - **请求路径**：`/transactions`
 - **请求参数**：
     - `transactionSerialNo`（非必填）：银行交易流水号
@@ -205,8 +205,8 @@ docker容器部署
 
   - 其中更新和创建使用fx系统函数随机生成请求数据，例子如下：
 
-
-    {"transactionSerialNo": "${sys.uuid()}",
+  ```` 
+   {"transactionSerialNo": "${sys.uuid()}",
      "description": "1",
      "amount": ${sys.random(1,10)},
      "payerAccount": "${biz.chineseName()}",
@@ -215,6 +215,7 @@ docker容器部署
      "payeeName": "${biz.chineseName()}",
      "paymentMethod": ""
     }
+  ````
 
 #### 2.压力量级和压力模式
 
@@ -242,5 +243,5 @@ docker容器部署
 ### 后续工作
 
 - 完成更多场景的压力测试。
-- 性能优化，目前使用spring-cache，后续可引起spring-cache+redis进行缓存。
-- 完善日志记录功能。
+- 性能优化，目前使用spring-cache，后续可使用spring-cache+redis进行缓存。
+- 增加日志记录功能。
