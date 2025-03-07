@@ -169,9 +169,9 @@ docker容器部署
 - **路径参数**： `id`（必填）：需要删除的交易记录的ID主键
 - **响应内容**：返回`BaseResponse`对象。
 
-### 页面功能展示
+## 页面功能展示
 
-#### 页面展示
+### 页面展示
 
   ![img.png](img/main_list.png)
   ![img.png](img/update.png)
@@ -180,9 +180,9 @@ docker容器部署
   ![img.png](img/valid2.png)
   ![img.png](img/valid3.png)
 
-### 测试
+## 测试
 
-#### 单元测试
+### 单元测试
 
     使用spring-boot-test和Mockito进行测试，覆盖每个API的正常和异常测试。
 
@@ -196,8 +196,48 @@ docker容器部署
   ![img.png](img/img3.png)
   ![img.png](img/img4.png)
 
-#### 压力测试
+### 压力测试
 
+使用阿里云性能测试PTS进行压测
+
+#### 1.压测场景（混合流量：查询、创建、修改）
+  ![img.png](img/yacechangjing.png)
+
+  - 其中更新和创建使用fx系统函数随机生成请求数据，例子如下：
+
+
+    {"transactionSerialNo": "${sys.uuid()}",
+     "description": "1",
+     "amount": ${sys.random(1,10)},
+     "payerAccount": "${biz.chineseName()}",
+     "payerName": "${biz.chineseName()}",
+     "payeeAccount":"${biz.chineseName()}",
+     "payeeName": "${biz.chineseName()}",
+     "paymentMethod": ""
+    }
+
+#### 2.压力量级和压力模式
+
+压测时间为10分钟
+最大虚拟用户数100，按60、20、20权重分到查询、创建、更新。
+虚拟用户起始百分比都为10%，每分钟递增20%直到100%
+   
+  ![img.png](img/yaceyonghuliang.png)
+  ![img.png](img/yacefangan.png)
+
+#### 压测结果
+
+**全场景数据**
+
+100个用户10分钟压力测试，平均TPS为359，峰值TPS为533，平均响应时长为208ms。
+
+  ![img.png](img/yaceresult1.png)
+
+**API压测数据**
+  ![img.png](img/yaceresult2.png)
+
+**服务器监控**
+  ![img.png](img/yaceresult3.png)
 
 ### 后续工作
 
